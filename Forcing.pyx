@@ -24,7 +24,11 @@ from Thermodynamics cimport LatentHeat, ClausiusClapeyron
 include 'parameters.pxi'
 from Initialization import sat_adjst, qv_unsat
 # import matplotlib.pyplot as plt
-import cPickle
+try:
+    import cPickle
+except ImportError:
+    # cPickle is the default in python 3 (https://stackoverflow.com/a/54360055)
+    import pickle as cPickle
 
 cdef class Forcing:
     def __init__(self, namelist, LatentHeat LH, ParallelMPI.ParallelMPI Pa):
