@@ -249,7 +249,9 @@ class CumulusStatistics:
                         jshift = j * jstride
                         for k in range(kmin, kmax):
                             ijk = ishift + jshift + k
-                            data[count] = thetas_c(PV.values[s_shift + ijk], PV.values[qt_shift + ijk])
+                            # data[count] = thetas_c(PV.values[s_shift + ijk], PV.values[qt_shift + ijk])
+                            # XXX: disabled for now (https://github.com/pressel/pycles/issues/34)
+                            data[count] = 0.0
 
                             count += 1
             tmp = Pa.HorizontalMeanConditional(Gr, &data[0], &cloudmask[0])
