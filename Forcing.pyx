@@ -64,8 +64,19 @@ cdef class Forcing:
             self.scheme = ForcingCGILS(namelist, Pa)
         elif casename == 'ZGILS':
             self.scheme = ForcingZGILS(namelist, LH, Pa)
+        elif casename == 'DCBLSoares':
+            self.scheme = ForcingSoares()
+        elif casename == 'DCBLSoares_moist':
+            self.scheme = ForcingSoares()
+        elif casename == 'ColdPoolDry_single_2D' or casename == 'ColdPoolDry_double_2D':
+            self.scheme = ForcingNone()
+        elif casename == 'ColdPoolDry_single_3D' or casename == 'ColdPoolDry_double_3D' or casename == 'ColdPoolDry_triple_3D':
+            self.scheme = ForcingNone()
+        elif casename == 'ColdPoolDry_single_3D_stable' or casename == 'ColdPoolDry_double_3D_stable' \
+                or casename == 'ColdPoolDry_triple_3D_stable':
+            self.scheme = ForcingNone()
         else:
-            Pa.root_print('No focing for casename: ' +  casename)
+            Pa.root_print('No forcing for casename: ' +  casename)
             Pa.root_print('Killing simulation now!!!')
             Pa.kill()
         return
@@ -1876,6 +1887,36 @@ cdef class ForcingZGILS:
 
         NS.write_ts('nudging_height',self.h_BL, Pa)
         return
+
+
+
+
+
+cdef class ForcingSoares:
+    def __init__(self):
+        return
+
+    cpdef initialize(self, Grid.Grid Gr, ReferenceState.ReferenceState Ref, NetCDFIO_Stats NS, ParallelMPI.ParallelMPI Pa):
+        # self.ug = np.ones(Gr.dims.nlg[2],dtype=np.double, order='c') #m/s
+        # self.vg = np.zeros(Gr.dims.nlg[2],dtype=np.double, order='c')  #m/s
+        # self.coriolis_param = 0.0 #s^{-1}
+#         NS.add_profile('u_coriolis_tendency', Gr, Pa)
+#         NS.add_profile('v_coriolis_tendency',Gr, Pa)
+        return
+
+    cpdef update(self, Grid.Grid Gr, ReferenceState.ReferenceState Ref,
+                 PrognosticVariables.PrognosticVariables PV, DiagnosticVariables.DiagnosticVariables DV, ParallelMPI.ParallelMPI Pa):
+
+        return
+
+    cpdef stats_io(self, Grid.Grid Gr, ReferenceState.ReferenceState Ref,
+                 PrognosticVariables.PrognosticVariables PV, DiagnosticVariables.DiagnosticVariables DV,
+                 NetCDFIO_Stats NS, ParallelMPI.ParallelMPI Pa):
+
+        return
+
+
+
 
 
 
